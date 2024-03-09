@@ -54,8 +54,8 @@ def api():
 def sign():
     return render_template('signin.html')
 
-@app.route('/home')
-def home():
+@app.route('/pricingtable')
+def pricingtable():
     try:
         if 'username' in session:
             user = users.get(session['username'])
@@ -75,7 +75,7 @@ def login():
 
         if email in users and users[email]['password'] == password:
             session['username'] = email
-            return redirect(url_for('home'))
+            return redirect(url_for('pricingtable'))
 
         return 'Invalid email or password'
 
@@ -90,7 +90,7 @@ def signup():
     if email not in users:
         users[email] = {'name': name, 'email': email, 'password': password}
         session['username'] = email
-        return redirect(url_for('home'))
+        return redirect(url_for('pricingtable'))
 
     return 'Email already registered'
 
