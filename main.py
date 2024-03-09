@@ -15,7 +15,7 @@ users = {
     }
 }
 # Set up OpenAI API credentials
-openai.api_key = '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'
+openai.api_key = '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'
 
 # Define the / route to return the index.html file
 @app.route('/')
