@@ -6,14 +6,6 @@ from googletrans import Translator
 app = Flask(__name__)
 app .secret_key = 'your_secret_key'
 
-# Dummy user data for demonstration purposes (replace with a database in a real application)
-users = {
-    'demo_user': {
-        'name': 'Demo User',
-        'email': 'demo@example.com',
-        'password': 'password123'
-    }
-}
 # Set up OpenAI API credentials
 openai.api_key = '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'
 
@@ -54,50 +46,6 @@ def api():
 def sign():
     return render_template('signin.html')
 
-@app.route('/home')
-def home():
-    try:
-        if 'username' in session:
-            user = users.get(session['username'])
-            if user:
-                return render_template('pricingtable.html', user_name=user['name'])
-        return redirect(url_for('login'))
-    except Exception as e:
-        # Log or print the exception details for debugging
-        print(f"An error occurred: {str(e)}")
-        return 'Internal Server Error'
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-
-        if email in users and users[email]['password'] == password:
-            session['username'] = email
-            return redirect(url_for('home'))
-
-        return 'Invalid email or password'
-
-    return render_template('login.html')
-
-@app.route('/signup', methods=['POST'])
-def signup():
-    name = request.form['name']
-    email = request.form['email']
-    password = request.form['password']
-
-    if email not in users:
-        users[email] = {'name': name, 'email': email, 'password': password}
-        session['username'] = email
-        return redirect(url_for('home'))
-
-    return 'Email already registered'
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('home'))
 
 @app.route('/Main')
 def Main():
